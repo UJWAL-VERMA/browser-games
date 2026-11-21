@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useStore } from '../lib/store';
+import { resolveThumbnail } from '../lib/catalog';
 
 export default function ContinueCarousel({ games }) {
   const { history } = useStore();
@@ -21,44 +22,50 @@ export default function ContinueCarousel({ games }) {
       </div>
 
       <div className="flex gap-3 overflow-x-auto snap-x pb-2 -mx-4 px-4 scrollbar-none">
-        {recent.map(({ game, meta }) => (
-          <Link
-            key={game.id}
-            to={`/play/${game.id}`}
-            className="group snap-start shrink-0 w-60 flex items-center gap-3 rounded-xl bg-arcade-canvas/90 border border-white/10 hover:border-arcade-cyan/60 p-2.5 transition-all duration-300 hover:shadow-cardGlow backdrop-blur"
-          >
-            {/* Thumbnail */}
-            <div className="relative w-14 h-14 rounded-lg bg-arcade-panel overflow-hidden shrink-0 flex items-center justify-center border border-white/10">
-              {game.thumbnail ? (
-                <img
-                  src={game.thumbnail}
-                  alt={game.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                />
-              ) : (
-                <span className="font-display text-base text-arcade-cyan">
-                  {game.title ? game.title.slice(0, 2).toUpperCase() : 'GM'}
-                </span>
-              )}
-            </div>
-
-            {/* Game Info */}
-            <div className="flex-1 min-w-0">
-              <div className="font-display text-xs font-bold text-white group-hover:text-arcade-cyan transition-colors truncate">
-                {game.title}
+        {recent.map(({ game, meta }) => {
+          const thumbUrl = resolveThumbnail(game.thumbnail);
+          return (
+            <Link
+              key={game.id}
+              to={`/play/${game.id}`}
+              className="group snap-start shrink-0 w-60 flex items-center gap-3 rounded-xl bg-arcade-canvas/90 border border-white/10 hover:border-arcade-cyan/60 p-2.5 transition-all duration-300 hover:shadow-cardGlow backdrop-blur"
+            >
+              {/* Thumbnail */}
+              <div className="relative w-14 h-14 rounded-lg bg-arcade-panel overflow-hidden shrink-0 flex items-center justify-center border border-white/10">
+                {thumbUrl ? (
+                  <img
+                    src={thumbUrl}
+                    alt={game.title}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                  />
+                ) : (
+                  <span className="font-display text-base text-arcade-cyan">
+                    {game.title ? game.title.slice(0, 2).toUpperCase() : 'GM'}
+                  </span>
+                )}
               </div>
-              <div className="text-[11px] text-arcade-muted flex items-center gap-1.5 mt-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-arcade-lime"></span>
-                <span>{game.category || 'Online'}</span>
-              </div>
-            </div>
 
-            {/* Play Button Icon */}
-            <div className="w-7 h-7 rounded-full bg-arcade-cyan/15 group-hover:bg-arcade-cyan text-arcade-cyan group-hover:text-arcade-bg flex items-center justify-center text-xs font-bold transition shrink-0">
-              ▶
-            </div>
-          </Link>
-        ))}
+              {/* Game Info */}
+              <div className="flex-1 min-w-0">
+                <div className="font-display text-xs font-bold text-white group-hover:text-arcade-cyan transition-colors truncate">
+                  {game.title}
+                </div>
+                <div className="text-[11px] text-arcade-muted flex items-center gap-1.5 mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-arcade-lime"></span>
+                  <span>{game.category || 'Online'}</span>
+                </div>
+              </div>
+
+              {/* Play Button Icon */}
+              <div className="w-7 h-7 rounded-full bg-arcade-cyan/15 group-hover:bg-arcade-cyan text-arcade-cyan group-hover:text-arcade-bg flex items-center justify-center text-xs font-bold transition shrink-0">
+                ▶
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

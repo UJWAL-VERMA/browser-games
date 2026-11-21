@@ -4,7 +4,18 @@ import { db } from './firebase';
 
 export const CATEGORIES = ['All', 'Multiplayer', 'Action', 'Shooter', 'Voxel 3D', 'Arcade', 'Simulation', 'Battle Royale', 'Strategy'];
 
-const LOCAL_GAMES_KEY = 'bg_custom_games_v2';
+const LOCAL_GAMES_KEY = 'bg_custom_games_v3';
+
+// Resolver to guarantee images load across GitHub Pages subpaths, custom domains, and native mobile apps
+export function resolveThumbnail(thumb) {
+  if (!thumb) return null;
+  if (thumb.startsWith('http://') || thumb.startsWith('https://') || thumb.startsWith('data:')) {
+    return thumb;
+  }
+  // Strip leading slash if present for relative path resolution
+  const clean = thumb.startsWith('/') ? thumb.slice(1) : thumb;
+  return `${import.meta.env.BASE_URL}${clean}`;
+}
 
 // Handpicked, high-production 3D browser games (Mobile + Web optimized)
 export const INITIAL_ONLINE_GAMES = [
@@ -17,7 +28,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://fightkaro.com/',
     description: 'A fast 3D satirical fighting game featuring political caricatures in an epic showdown arena with 3D combat moves and special animations.',
     orientation: 'landscape',
-    thumbnail: '/fightkaro-thumb.png',
+    thumbnail: 'fightkaro-thumb.png',
   },
   {
     id: 'game-smashkarts',
@@ -28,7 +39,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://smashkarts.io/',
     description: 'Fast 3D multiplayer battle arena kart racing game. Drive karts, pick up mystery boxes, launch rockets, and battle other players across vibrant tracks.',
     orientation: 'landscape',
-    thumbnail: '/smashkarts-thumb.jpg',
+    thumbnail: 'smashkarts-thumb.jpg',
   },
   {
     id: 'game-bloxd',
@@ -39,7 +50,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://bloxd.io/',
     description: 'Stunning online 3D voxel sandbox game with rich parkour obby modes, Bedwars, peaceful building, and creative multiplayer worlds.',
     orientation: 'landscape',
-    thumbnail: '/bloxd-thumb.jpg',
+    thumbnail: 'bloxd-thumb.jpg',
   },
   {
     id: 'game-krunker',
@@ -50,7 +61,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://krunker.io/',
     description: 'Fast-paced first-person shooter browser game with pixelated graphics, multiplayer action, slide-hopping movement, and full custom game modes.',
     orientation: 'landscape',
-    thumbnail: '/krunker-thumb.jpg',
+    thumbnail: 'krunker-thumb.jpg',
   },
   {
     id: 'game-survev',
@@ -61,7 +72,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://survev.io/',
     description: 'Intense top-down 2D battle royale action. Scavenge weapons, shields, and ammunition while escaping the shrinking red hazard zone to be the last survivor.',
     orientation: 'landscape',
-    thumbnail: '/survev-thumb.jpg',
+    thumbnail: 'survev-thumb.jpg',
   },
   {
     id: 'game-evio',
@@ -72,7 +83,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://ev.io/',
     description: 'Futuristic Halo-inspired browser tactical FPS set in sci-fi environments with tactical abilities, jump pads, and competitive multiplayer lobbies.',
     orientation: 'landscape',
-    thumbnail: '/evio-thumb.jpg',
+    thumbnail: 'evio-thumb.jpg',
   },
   {
     id: 'game-slowroads',
@@ -83,7 +94,7 @@ export const INITIAL_ONLINE_GAMES = [
     url: 'https://slowroads.io/#A2-c76e418d@21.59',
     description: 'An endless procedural driving browser game set in serene natural landscapes. Cruise smoothly down mountain passes and scenic highways with soothing visuals.',
     orientation: 'landscape',
-    thumbnail: '/slowroads-thumb.jpg',
+    thumbnail: 'slowroads-thumb.jpg',
   },
 ];
 

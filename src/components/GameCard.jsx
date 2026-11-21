@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom';
 import { useStore } from '../lib/store';
+import { resolveThumbnail } from '../lib/catalog';
 
 export default function GameCard({ game }) {
   const { isFavorite, toggleFavorite } = useStore();
   const fav = isFavorite(game.id);
+  const thumbUrl = resolveThumbnail(game.thumbnail);
 
   return (
     <div className="group relative rounded-2xl overflow-hidden bg-arcade-canvas/90 border border-white/10 hover:border-arcade-cyan/60 hover:shadow-cardGlow transition-all duration-300 flex flex-col justify-between backdrop-blur-sm">
       <Link to={`/play/${game.id}`} className="block flex-1">
         <div className="relative aspect-[16/10] bg-gradient-to-br from-arcade-panel via-arcade-canvas to-arcade-bg flex items-center justify-center overflow-hidden">
-          {game.thumbnail ? (
+          {thumbUrl ? (
             <img
-              src={game.thumbnail}
+              src={thumbUrl}
               alt={game.title}
               loading="lazy"
+              onError={(e) => {
+                // If local image fails, hide broken icon and fallback to initials
+                e.target.style.display = 'none';
+              }}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
