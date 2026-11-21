@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import App from './App';
 import { StoreProvider } from './lib/store';
 import { ToastProvider } from './lib/toast';
 import './index.css';
 
-// BrowserRouter works on the web. Capacitor serves the build from a local origin, so this also works in the apps.
+// HashRouter ensures perfect client-side routing across GitHub Pages subpaths, Android APKs, and iOS WebViews
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <ToastProvider>
         <StoreProvider>
           <App />
         </StoreProvider>
       </ToastProvider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
