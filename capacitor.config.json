@@ -1,0 +1,9 @@
+{
+  "appId": "com.ujwalverma.browsergames",
+  "appName": "Browser Games",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": { "androidScheme": "https" },
+  "ios": { "contentInset": "automatic", "backgroundColor": "#07060f" },
+  "android": { "backgroundColor": "#07060f" }
+}

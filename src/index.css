@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(circle at 50% 0%, #202642 0%, #16192b 75%, #111322 100%);
+  color: #f8fafc;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+/* Safe areas on modern mobile devices & notches */
+@supports (padding: max(0px)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+@layer components {
+  .ctrl {
+    @apply rounded-lg border border-arcade-cyan/40 bg-arcade-panel/80 px-3 py-1.5 text-arcade-cyan hover:bg-arcade-cyan/20 hover:border-arcade-cyan transition active:scale-95 text-xs font-medium shadow-sm;
+  }
+  .pad {
+    @apply rounded-xl bg-arcade-panel border border-arcade-pink/40 py-3 text-lg active:scale-95 shadow-sm;
+  }
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.toast-in { animation: toast-in 0.25s ease-out; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
