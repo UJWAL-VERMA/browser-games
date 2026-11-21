@@ -24,8 +24,13 @@ export default function GameCard({ game }) {
             </div>
           )}
 
-          {/* Orientation & Status Badges */}
-          <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5">
+          {/* Badges */}
+          <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 flex-wrap">
+            {game.isMultiplayer && (
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-arcade-pink/90 text-white shadow-neonPink">
+                ⚔ Multiplayer
+              </span>
+            )}
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-black/60 backdrop-blur-md text-arcade-cyan border border-arcade-cyan/30 shadow-sm">
               {game.orientation === 'landscape' ? '⬌ Landscape' : '⬍ Portrait'}
             </span>
@@ -43,7 +48,7 @@ export default function GameCard({ game }) {
             <span className="w-2 h-2 rounded-full bg-arcade-lime animate-pulse"></span>
             <span className="font-medium text-white/80">{game.category || 'Arcade'}</span>
             <span className="text-white/20">•</span>
-            <span className="text-arcade-muted">Playable Web Link</span>
+            <span className="text-arcade-muted">HTML5 Web</span>
           </div>
         </div>
       </Link>

@@ -8,11 +8,17 @@ export default function Home() {
   const { games } = useCatalog();
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState(null);
+
   const list = useMemo(() => filterGames(games, { query, category }), [games, query, category]);
+
+  // Dedicated multiplayer list for the featured multiplayer section
+  const multiplayerGames = useMemo(() => {
+    return games.filter((g) => g.isMultiplayer || ['Battle Royale', 'Shooter', 'Voxel 3D', 'Arcade'].includes(g.category));
+  }, [games]);
 
   return (
     <div className="px-4 md:px-8 py-5 pb-24 md:pb-8 max-w-6xl mx-auto">
-      {/* Search Input */}
+      {/* Search Bar */}
       <div className="mb-5">
         <div className="relative">
           <input
@@ -43,14 +49,42 @@ export default function Home() {
         ))}
       </div>
 
+      {/* Continue Playing Section */}
       {!query && !category && games.length > 0 && <ContinueCarousel games={games} />}
 
+      {/* DEDICATED MULTIPLAYER GAMES SECTION (Shown when browsing all or multiplayer) */}
+      {!query && (!category || category === 'Multiplayer') && multiplayerGames.length > 0 && (
+        <section className="mb-10 p-5 md:p-6 rounded-3xl bg-gradient-to-r from-arcade-canvas via-arcade-panel/60 to-arcade-canvas border border-arcade-pink/30 shadow-2xl relative overflow-hidden">
+          <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-arcade-pink/10 blur-3xl pointer-events-none"></div>
+
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2.5">
+              <span className="px-2.5 py-1 rounded-md bg-arcade-pink text-white text-[10px] font-extrabold uppercase tracking-wider shadow-neonPink">
+                LIVE LOBBIES
+              </span>
+              <h2 className="font-display text-lg md:text-xl font-bold text-white tracking-wide flex items-center gap-2">
+                <span>Multiplayer Battleground</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-arcade-lime animate-ping"></span>
+              </h2>
+            </div>
+            <span className="text-xs text-arcade-muted hidden sm:inline">Real-time online players</span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {multiplayerGames.slice(0, 6).map((g) => (
+              <GameCard key={`mp-${g.id}`} game={g} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* All / Filtered Games Grid */}
       <div className="flex items-center justify-between mb-4 mt-2">
         <div>
           <h2 className="font-display text-lg font-bold text-white tracking-wide">
-            {category ? `${category} Games` : 'Featured Browser Games'}
+            {category ? `${category} Games` : 'All Browser Games'}
           </h2>
-          <p className="text-xs text-arcade-muted">Playable directly in-app or browser</p>
+          <p className="text-xs text-arcade-muted">Instant play without downloading</p>
         </div>
         <Link
           to="/admin"
